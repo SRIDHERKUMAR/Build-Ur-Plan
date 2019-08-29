@@ -1,11 +1,9 @@
 import React from 'react'
 import {NavLink} from 'react-router-dom'
 import './App.css'
-import SearchIcon from './search-icon.png'
 
 const NavBar = () => (
     <div>
-
         <div className="company__name">Build Beautiful</div>
         <div className="navbar__main">
             <nav>
@@ -18,5 +16,5 @@ const NavBar = () => (
             </nav>
         </div>
     </div>
-)
+);
 export default NavBar;

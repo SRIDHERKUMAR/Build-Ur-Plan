@@ -5,7 +5,7 @@ import HomePage from './HomePage'
 import Plan from './Plan'
 
 
-const Home= () => (
+const Home = () => (
     <div>
         <div>
             <NavBar />
@@ -17,5 +17,5 @@ const Home= () => (
             <Route exact path='/store' component={Store} />*/}
         </div>
     </div>
-)
+);
 export default Home;

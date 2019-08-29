@@ -1,18 +1,36 @@
 import React, {Component} from 'react';
-import {BrowserRouter as Router,} from 'react-router-dom';
-import Home from './Home'
+import {BrowserRouter as Router} from 'react-router-dom';
+import {connect} from "react-redux";
+import Home from './Home';
+import Login from "./containers/userLogin/login";
 import './App.css';
 
 class App extends Component {
     render() {
+        const {login}=this.props;
         return (
             <div>
+                { !login &&
                     <Router>
-                        <Home/>
+                        <Login/>
                     </Router>
+                }
+                { login &&
+                    <Router>
+                        <Home />
+                    </Router>
+                }
+
             </div>
         );
     }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+    return {
+        login: state.loginReducer.login,
+    };
+};
+
+export default connect(mapStateToProps, null)(App);
+
