@@ -15,7 +15,7 @@ class Login extends React.Component {
     }
     homePage = () => {
         const {userName,password } =this.state;
-        if(userName === 'sridher' && password.length === 7){
+        if(userName === 'Sridher' && password.length === 7){
             return this.props.loginSuccess(true);
         } else {
            return this.setState({loginFailure: "Please Enter Valid Credentials"})
