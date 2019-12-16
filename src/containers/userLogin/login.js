@@ -1,43 +1,107 @@
 import React from 'react';
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 import {connect} from "react-redux";
-import { loginSuccess } from "../../redux/actions/login_actions";
+import { loginSuccess, getUsers, loggedInUser } from "../../redux/actions/login_actions";
 import './_styles.scss';
 
+function fetchUsers() {
+    fetch("https://apiserverdata.com/users/buildYourPlanUserDetails/all")
+        .then(res => res.json())
+        .then(users => {
+            this.props.getUsers(users);
+        });
+}
+
 class Login extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state={
-           userName:'',
-            password:'',
+            password: "",
+            passwordMissMatch: "",
+            userExists: "",
+            user: {},
+            userName:'',
             loginFailure:''
         };
 
     }
-    homePage = () => {
-        const {userName,password } =this.state;
-        if(userName === 'Sridher' && password.length === 7){
-            return this.props.loginSuccess(true);
-        } else {
-           return this.setState({loginFailure: "Please Enter Valid Credentials"})
-        }
+    componentDidMount() {
+        fetchUsers.call(this);
+    }
 
+    validateForm() {
+        return this.state.userName.length > 0 && this.state.password.length > 0;
+    }
+
+    handleChange = event => {
+        this.setState({
+            [event.target.id]: event.target.value,
+            passwordMissMatch: "",
+            userExists: ""
+        });
+    };
+
+    handleSubmit = async event => {
+        fetch(`https://apiserverdata.com/users/buildYourPlanUserDetails?id=${this.state.userName}&password=${this.state.password}`)
+            .then(res => res.json())
+            .then(user => {
+                if(user.login) {
+                    this.props.loginSuccess(user.login)
+                    this.props.loggedInUser(user);
+                }
+                this.setState({
+                    passwordMissMatch: user.passwordMissMatch,
+                    userExists: user.userExists
+                });
+            });
+        event.preventDefault();
     };
 
     render() {
         return (
-            <div className="login_page">
-                <div>USER LOGIN</div>
-                <div className="login_page--username">
-                    Username:
-                    <input type = "text"  value={this.state.userName} onChange={(e) => this.setState({userName: e.target.value})} />
-                </div>
-                <div className="login_page--password">
-                Password:
-                    <input type = "password" value={this.state.password} onChange={(e) => this.setState({password: e.target.value})} />
-                </div>
-                <button onClick={this.homePage}>Submit</button>
-                <button>SignUp</button>
-                {this.state.loginFailure}
+            <div>
+                <section className="centered">
+                    {this.state.userExists === false &&
+                    <div className="error">
+                        user does not exists
+                    </div>}
+                    {this.state.passwordMissMatch === true &&
+                    <div className="error">
+                        user and password miss match
+                    </div>}
+            <div className="Login">
+                <Form onSubmit={this.handleSubmit}>
+                    <Form.Group controlId="userName" bssize="large">
+                        <Form.Control
+                            placeholder="userId"
+                            className="input"
+                            autoFocus
+                            value={this.state.userName}
+                            onChange={this.handleChange}
+                        />
+                    </Form.Group>
+                    <Form.Group controlId="password" bssize="large">
+                        <Form.Control
+                            placeholder="password"
+                            className="input"
+                            value={this.state.password}
+                            onChange={this.handleChange}
+                            type="password"
+                        />
+                    </Form.Group>
+                    <Button
+                        block
+                        bssize="large"
+                        className="button"
+                        disabled={!this.validateForm()}
+                        type="submit"
+                    >
+                        Login
+                    </Button>
+                </Form>
+            </div>
+                </section>
             </div>
         );
     }
@@ -48,7 +112,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-        loginSuccess: (data) => dispatch(loginSuccess(data))
+        loginSuccess: (data) => dispatch(loginSuccess(data)),
+        getUsers: (data) => dispatch(getUsers(data)),
+        loggedInUser: (data) => dispatch(loggedInUser(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

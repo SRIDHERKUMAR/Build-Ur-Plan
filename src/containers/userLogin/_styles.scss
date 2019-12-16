@@ -6,3 +6,28 @@
   text-align: center;
   font-size: 15px;
 }
+.nav-section {
+  margin-left: 95%;
+}
+.button {
+  border-color: #f7fafb;
+  background: #cccccc;
+  margin: 2px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.error {
+  color: red;
+  font-size: small;
+}
+.input {
+  margin: 2px;
+  border-block-start-color: grey;
+}
