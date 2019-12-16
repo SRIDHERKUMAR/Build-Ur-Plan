@@ -104,11 +104,14 @@ class Login extends React.Component {
                             >
                                 Login
                             </Button>
-                    <button
-                        className="button"
-                        onClick={() => this.props.addNewUser(true)}>
-                        Create
-                    </button>
+                            <Button
+                                block
+                                bssize="large"
+                                className="button"
+                                onClick={() => this.props.addNewUser(true)}
+                            >
+                                Create
+                            </Button>
                         </Form>
                     </div>
                     }
