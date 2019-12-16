@@ -2,7 +2,8 @@ import React from 'react';
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import {connect} from "react-redux";
-import { loginSuccess, getUsers, loggedInUser } from "../../redux/actions/login_actions";
+import { loginSuccess, getUsers, loggedInUser, addNewUser } from "../../redux/actions/login_actions";
+import AddUser from "./addUser";
 import './_styles.scss';
 
 function fetchUsers() {
@@ -70,37 +71,47 @@ class Login extends React.Component {
                     <div className="error">
                         user and password miss match
                     </div>}
-            <div className="Login">
-                <Form onSubmit={this.handleSubmit}>
-                    <Form.Group controlId="userName" bssize="large">
-                        <Form.Control
-                            placeholder="userId"
-                            className="input"
-                            autoFocus
-                            value={this.state.userName}
-                            onChange={this.handleChange}
-                        />
-                    </Form.Group>
-                    <Form.Group controlId="password" bssize="large">
-                        <Form.Control
-                            placeholder="password"
-                            className="input"
-                            value={this.state.password}
-                            onChange={this.handleChange}
-                            type="password"
-                        />
-                    </Form.Group>
-                    <Button
-                        block
-                        bssize="large"
+                    {this.props.addUser &&
+                        <AddUser />
+                    }
+                    {!this.props.addUser &&
+                    <div className="Login">
+                        <Form onSubmit={this.handleSubmit}>
+                            <Form.Group controlId="userName" bssize="large">
+                                <Form.Control
+                                    placeholder="userId"
+                                    className="input"
+                                    autoFocus
+                                    value={this.state.userName}
+                                    onChange={this.handleChange}
+                                />
+                            </Form.Group>
+                            <Form.Group controlId="password" bssize="large">
+                                <Form.Control
+                                    placeholder="password"
+                                    className="input"
+                                    value={this.state.password}
+                                    onChange={this.handleChange}
+                                    type="password"
+                                />
+                            </Form.Group>
+                            <Button
+                                block
+                                bssize="large"
+                                className="button"
+                                disabled={!this.validateForm()}
+                                type="submit"
+                            >
+                                Login
+                            </Button>
+                    <button
                         className="button"
-                        disabled={!this.validateForm()}
-                        type="submit"
-                    >
-                        Login
-                    </Button>
-                </Form>
-            </div>
+                        onClick={() => this.props.addNewUser(true)}>
+                        Create
+                    </button>
+                        </Form>
+                    </div>
+                    }
                 </section>
             </div>
         );
@@ -108,13 +119,14 @@ class Login extends React.Component {
 }
 
 const mapStateToProps = state => ({
-        login: state.loginReducer.login
+        addUser: state.loginReducer.addUser
 });
 
 const mapDispatchToProps = dispatch => ({
-        loginSuccess: (data) => dispatch(loginSuccess(data)),
-        getUsers: (data) => dispatch(getUsers(data)),
-        loggedInUser: (data) => dispatch(loggedInUser(data))
+    loginSuccess: (data) => dispatch(loginSuccess(data)),
+    getUsers: (data) => dispatch(getUsers(data)),
+    loggedInUser: (data) => dispatch(loggedInUser(data)),
+    addNewUser: (data) => dispatch(addNewUser(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

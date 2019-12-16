@@ -5,7 +5,8 @@ import * as actions from "../actions/login_actions";
 const initialState = {
     login: false,
     users: [],
-    user: {}
+    user: {},
+    addUser: false
 };
 
 
@@ -23,6 +24,8 @@ export function loginReducer(state= initialState, action) {
             });
         case actions.LOGGED_IN_USER:
             return Object.assign({}, state, {user: action.user});
+        case actions.ADD_NEW_USER:
+            return Object.assign({}, state, {addUser: action.value});
         case actions.GET_USERS:
             return Object.assign({}, state, {users: action.users});
         default:

@@ -11,10 +11,11 @@
 }
 .button {
   border-color: #f7fafb;
-  background: #cccccc;
+  background: #5894cc;
   margin: 2px;
   cursor: pointer;
   border-radius: 8px;
+  color: #f7fafb;
 }
 .centered {
   position: absolute;
@@ -30,4 +31,9 @@
 .input {
   margin: 2px;
   border-block-start-color: grey;
+}
+.info {
+  color: #00BCD4;
+  font-size: small;
+  margin-bottom: 0;
 }
