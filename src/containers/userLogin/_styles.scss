@@ -7,15 +7,16 @@
   font-size: 15px;
 }
 .nav-section {
-  margin-left: 95%;
+ float: right;
+  font-size: 1.5rem;
 }
 .button {
   border-color: #f7fafb;
   background: #5894cc;
-  margin: 2px;
   cursor: pointer;
-  border-radius: 8px;
   color: #f7fafb;
+  margin: 2px 10px 2px 2px;
+  padding: 0 5px 0 5px;
 }
 .centered {
   position: absolute;
