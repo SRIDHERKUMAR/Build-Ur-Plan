@@ -42,14 +42,13 @@ font-size: 2rem;
   text-decoration: none;
 }
 .nav-items:hover {
-  text-decoration: none;
   color: #000000;
   opacity: 1;
-  zoom: 110%;
 }
 
-.nav-items:active {
+.active {
   color: antiquewhite;
+  opacity: 1;
 }
 
 
