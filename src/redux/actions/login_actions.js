@@ -4,6 +4,7 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const LOGGED_IN_USER = 'LOGGED_IN_USER';
 export const ADD_NEW_USER = 'ADD_NEW_USER';
+export const RESET_PASSWORD = 'RESET_PASSWORD';
 export const GET_USERS = 'GET_USERS';
 
 export function loginSuccess(value) {
@@ -35,6 +36,12 @@ export function loggedInUser(user) {
 export function addNewUser(value) {
     return {
         type: ADD_NEW_USER,
+        value,
+    };
+}
+export function resetPassword(value) {
+    return {
+        type: RESET_PASSWORD,
         value,
     };
 }

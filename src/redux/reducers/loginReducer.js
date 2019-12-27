@@ -6,10 +6,9 @@ const initialState = {
     login: false,
     users: [],
     user: {},
-    addUser: false
+    addUser: false,
+    resetPassword: false,
 };
-
-
 
 //reducer here
 export function loginReducer(state= initialState, action) {
@@ -26,8 +25,13 @@ export function loginReducer(state= initialState, action) {
             return Object.assign({}, state, {user: action.user});
         case actions.ADD_NEW_USER:
             return Object.assign({}, state, {addUser: action.value});
+        case actions.RESET_PASSWORD:
+            return Object.assign({}, state, {resetPassword: action.value});
         case actions.GET_USERS:
-            return Object.assign({}, state, {users: action.users});
+            return Object.assign({}, state, {
+                users: action.users,
+                canGetUsers: false
+            });
         default:
             return state;
     }

@@ -2,9 +2,10 @@ import React from 'react';
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import {connect} from "react-redux";
-import { loginSuccess, getUsers, loggedInUser, addNewUser } from "../../redux/actions/login_actions";
+import { loginSuccess, getUsers, loggedInUser, addNewUser, resetPassword } from "../../redux/actions/login_actions";
 import AddUser from "./addUser";
 import './_styles.scss';
+import ResetPassword from "./resetPassword";
 
 function fetchUsers() {
     fetch("https://apiserverdata.com/users/buildYourPlanUserDetails/all")
@@ -43,6 +44,20 @@ class Login extends React.Component {
         });
     };
 
+    createUser() {
+        this.setState({
+            passwordMissMatch: false
+        });
+        this.props.addNewUser(true);
+    }
+
+    resetUser() {
+        this.setState({
+            passwordMissMatch: false
+        });
+        this.props.reset(true);
+    }
+
     handleSubmit = async event => {
         fetch(`https://apiserverdata.com/users/buildYourPlanUserDetails?id=${this.state.userName}&password=${this.state.password}`)
             .then(res => res.json())
@@ -71,10 +86,13 @@ class Login extends React.Component {
                     <div className="error">
                         user and password miss match
                     </div>}
-                    {this.props.addUser &&
+                    {this.props.resetEnabled &&
+                        <ResetPassword />
+                    }
+                    {this.props.addUser && !this.props.resetEnabled &&
                         <AddUser />
                     }
-                    {!this.props.addUser &&
+                    {!this.props.addUser && !this.props.resetEnabled &&
                     <div className="Login">
                         <Form onSubmit={this.handleSubmit}>
                             <Form.Group controlId="userName" bssize="large">
@@ -95,6 +113,10 @@ class Login extends React.Component {
                                     type="password"
                                 />
                             </Form.Group>
+                            {this.state.passwordMissMatch === true &&
+                            <div className="link" onClick={()=>this.resetUser()}>
+                               reset password
+                            </div>}
                             <Button
                                 block
                                 bssize="large"
@@ -108,7 +130,7 @@ class Login extends React.Component {
                                 block
                                 bssize="large"
                                 className="button"
-                                onClick={() => this.props.addNewUser(true)}
+                                onClick={() => this.createUser()}
                             >
                                 Create
                             </Button>
@@ -122,14 +144,16 @@ class Login extends React.Component {
 }
 
 const mapStateToProps = state => ({
-        addUser: state.loginReducer.addUser
+        addUser: state.loginReducer.addUser,
+        resetEnabled: state.loginReducer.resetPassword
 });
 
 const mapDispatchToProps = dispatch => ({
     loginSuccess: (data) => dispatch(loginSuccess(data)),
     getUsers: (data) => dispatch(getUsers(data)),
     loggedInUser: (data) => dispatch(loggedInUser(data)),
-    addNewUser: (data) => dispatch(addNewUser(data))
+    addNewUser: (data) => dispatch(addNewUser(data)),
+    reset: (data) => dispatch(resetPassword(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

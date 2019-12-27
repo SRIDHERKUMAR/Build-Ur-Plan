@@ -31,6 +31,18 @@
   color: red;
   font-size: small;
 }
+.link {
+  margin-bottom: 6px;
+  text-decoration: underline;
+  color: black;
+  font-size: small;
+  cursor: pointer;
+  opacity: 0.8;
+}
+.link:hover {
+  color: green;
+  opacity: 1;
+}
 .input {
   margin: 2px;
   border-block-start-color: grey;
